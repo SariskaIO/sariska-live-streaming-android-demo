@@ -9,6 +9,8 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import io.sariska.sariska_live_streaming_android_demo.R;
 
@@ -33,7 +35,8 @@ public class FrontFragmentLayout extends Fragment {
             @Override
             public void onClick(View view) {
                 // Replace with Fragment
-
+                StartLiveStreamFragment fragment = StartLiveStreamFragment.newInstance();
+                navigateToFragment(fragment);
             }
         });
 
@@ -44,7 +47,14 @@ public class FrontFragmentLayout extends Fragment {
 
             }
         });
-
         return view;
+    }
+
+    private void navigateToFragment(Fragment fragment) {
+        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.container, fragment);
+        fragmentTransaction.addToBackStack(null); // Add to back stack to enable back navigation
+        fragmentTransaction.commit();
     }
 }
