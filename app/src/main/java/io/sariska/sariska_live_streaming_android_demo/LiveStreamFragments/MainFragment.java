@@ -14,13 +14,13 @@ import androidx.fragment.app.FragmentTransaction;
 
 import io.sariska.sariska_live_streaming_android_demo.R;
 
-public class FrontFragmentLayout extends Fragment {
+public class MainFragment extends Fragment {
 
     private Button btnStartLive;
     private Button btnJoinStream;
 
-    public static FrontFragmentLayout newInstance() {
-        return new FrontFragmentLayout();
+    public static MainFragment newInstance() {
+        return new MainFragment();
     }
 
     @Nullable
@@ -44,7 +44,8 @@ public class FrontFragmentLayout extends Fragment {
             @Override
             public void onClick(View view) {
                 // Replace with Fragment
-
+                JoinLiveStreamFragment joinLiveStreamFragment = JoinLiveStreamFragment.newInstance();
+                navigateToFragment(joinLiveStreamFragment);
             }
         });
         return view;

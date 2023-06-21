@@ -9,11 +9,18 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import io.sariska.sariska_live_streaming_android_demo.R;
+
 public class JoinLiveStreamFragment extends Fragment {
+    public static JoinLiveStreamFragment newInstance() {
+        return new JoinLiveStreamFragment();
+    }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return super.onCreateView(inflater, container, savedInstanceState);
+        View view = inflater.inflate(R.layout.fragment_start_live, container, false);
+        // Add your UI elements and logic specific to Start Live fragment
+        return view;
     }
 }

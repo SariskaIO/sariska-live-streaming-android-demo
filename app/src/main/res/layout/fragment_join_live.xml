@@ -6,13 +6,13 @@
     android:gravity="center"
     android:orientation="vertical"
     android:padding="16dp"
-    tools:context="io.sariska.sariska_live_streaming_android_demo.LiveStreamFragments.StartLiveStreamFragment">
+    tools:context="io.sariska.sariska_live_streaming_android_demo.LiveStreamFragments.JoinLiveStreamFragment">
 
     <TextView
         android:id="@+id/tvMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Start Live Stream!"
+        android:text="Join Live Stream!"
         android:textSize="20sp"
         android:textColor="@android:color/black"
         android:layout_marginTop="16dp"/>
