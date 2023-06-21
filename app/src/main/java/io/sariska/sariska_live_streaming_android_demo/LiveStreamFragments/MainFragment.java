@@ -9,16 +9,18 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import io.sariska.sariska_live_streaming_android_demo.R;
 
-public class FrontFragmentLayout extends Fragment {
+public class MainFragment extends Fragment {
 
     private Button btnStartLive;
     private Button btnJoinStream;
 
-    public static FrontFragmentLayout newInstance() {
-        return new FrontFragmentLayout();
+    public static MainFragment newInstance() {
+        return new MainFragment();
     }
 
     @Nullable
@@ -32,17 +34,28 @@ public class FrontFragmentLayout extends Fragment {
         btnStartLive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                System.out.println("Start Button Pressed");
+                // Replace with Fragment
+                StartLiveStreamFragment fragment = StartLiveStreamFragment.newInstance();
+                navigateToFragment(fragment);
             }
         });
 
         btnJoinStream.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                System.out.println("Join button Pressed");
+                // Replace with Fragment
+                JoinLiveStreamFragment joinLiveStreamFragment = JoinLiveStreamFragment.newInstance();
+                navigateToFragment(joinLiveStreamFragment);
             }
         });
-
         return view;
+    }
+
+    private void navigateToFragment(Fragment fragment) {
+        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.container, fragment);
+        fragmentTransaction.addToBackStack(null); // Add to back stack to enable back navigation
+        fragmentTransaction.commit();
     }
 }
