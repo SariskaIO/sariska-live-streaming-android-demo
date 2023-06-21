@@ -32,14 +32,16 @@ public class FrontFragmentLayout extends Fragment {
         btnStartLive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                System.out.println("Start Button Pressed");
+                // Replace with Fragment
+
             }
         });
 
         btnJoinStream.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                System.out.println("Join button Pressed");
+                // Replace with Fragment
+
             }
         });
 

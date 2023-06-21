@@ -23,7 +23,6 @@ public class MainActivity extends AppCompatActivity {
             // Replace the container with FrontFragmentLayout
             replaceFragment(fragment);
         }
-
     }
 
     private void replaceFragment(Fragment fragment) {
@@ -32,6 +31,4 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.replace(R.id.container, fragment);
         fragmentTransaction.commit();
     }
-
-
 }
