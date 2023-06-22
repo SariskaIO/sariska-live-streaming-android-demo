@@ -1,19 +1,35 @@
 package io.sariska.sariska_live_streaming_android_demo.LiveStreamBaseFragments.joinlivefragments;
 
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.OptIn;
 import androidx.fragment.app.Fragment;
+import androidx.media3.common.MediaItem;
+import androidx.media3.common.MimeTypes;
+import androidx.media3.common.util.UnstableApi;
+import androidx.media3.common.util.Util;
+import androidx.media3.datasource.DataSource;
+import androidx.media3.datasource.DefaultDataSourceFactory;
+import androidx.media3.datasource.DefaultHttpDataSource;
 import androidx.media3.exoplayer.ExoPlayer;
+
+import androidx.media3.exoplayer.hls.DefaultHlsDataSourceFactory;
+import androidx.media3.exoplayer.hls.HlsMediaSource;
+import androidx.media3.exoplayer.source.MediaSource;
 import androidx.media3.ui.PlayerView;
+
+import com.google.firebase.platforminfo.UserAgentPublisher;
 
 import io.sariska.sariska_live_streaming_android_demo.R;
 
-public class JoinLiveStreamFragment extends Fragment {
+@UnstableApi public class JoinLiveStreamFragment extends Fragment {
 
     private ExoPlayer exoPlayer;
 
@@ -33,7 +49,14 @@ public class JoinLiveStreamFragment extends Fragment {
         ExoPlayer player = new ExoPlayer.Builder(getContext()).build();
 
         playerView.setPlayer(player);
-
+        // Build the media item.
+        String urlString = "https://edge.sariska.io/play/hls/8rmrwpbpeccbnxos/li7zyx2p0wabi0a5.m3u8";
+        Uri uri = Uri.parse(urlString);
+        DataSource.Factory dataSourceFactory = new DefaultHttpDataSource.Factory();
+        HlsMediaSource hlsMediaSource =
+                new HlsMediaSource.Factory(dataSourceFactory).createMediaSource(MediaItem.fromUri(uri));
+        player.setMediaSource(hlsMediaSource);
+        player.prepare();
 
         return view;
     }
