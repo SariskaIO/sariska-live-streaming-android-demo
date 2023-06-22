@@ -1,20 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
     android:padding="16dp"
-    tools:context="io.sariska.sariska_live_streaming_android_demo.LiveStreamFragments.StartLiveStreamFragment">
+    tools:context="io.sariska.sariska_live_streaming_android_demo.LiveStreamBaseFragments.startlivefragments.StartLiveStreamFragment">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
 
-    <TextView
-        android:id="@+id/tvMessage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Start Live Stream!"
-        android:textSize="20sp"
-        android:textColor="@android:color/black"
-        android:layout_marginTop="16dp"/>
+        >
+        <RelativeLayout
+            android:id="@+id/local_video_view_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="true"
+            android:focusable="true"
+            android:orientation="vertical"
+            />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/remoteRecycleView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/local_video_view_container"
+            android:layout_marginBottom="60dp"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:reverseLayout="false"
+            tools:itemCount="5"
+            tools:listitem="@layout/row_item_remote_views" />
+
+        <Button
+            android:id="@+id/myButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="Start Streaming" />
+
+    </RelativeLayout>
+
 
 </LinearLayout>
