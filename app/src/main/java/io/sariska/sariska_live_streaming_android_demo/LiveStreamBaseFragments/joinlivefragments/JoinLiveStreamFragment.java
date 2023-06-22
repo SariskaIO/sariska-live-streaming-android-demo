@@ -9,23 +9,14 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.OptIn;
 import androidx.fragment.app.Fragment;
 import androidx.media3.common.MediaItem;
-import androidx.media3.common.MimeTypes;
 import androidx.media3.common.util.UnstableApi;
-import androidx.media3.common.util.Util;
 import androidx.media3.datasource.DataSource;
-import androidx.media3.datasource.DefaultDataSourceFactory;
 import androidx.media3.datasource.DefaultHttpDataSource;
 import androidx.media3.exoplayer.ExoPlayer;
-
-import androidx.media3.exoplayer.hls.DefaultHlsDataSourceFactory;
 import androidx.media3.exoplayer.hls.HlsMediaSource;
-import androidx.media3.exoplayer.source.MediaSource;
 import androidx.media3.ui.PlayerView;
-
-import com.google.firebase.platforminfo.UserAgentPublisher;
 
 import io.sariska.sariska_live_streaming_android_demo.R;
 
@@ -41,7 +32,8 @@ import io.sariska.sariska_live_streaming_android_demo.R;
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_join_live, container, false);
         // Add your UI elements and logic specific to Start Live fragment
         playerView = view.findViewById(R.id.video_view);
@@ -57,7 +49,6 @@ import io.sariska.sariska_live_streaming_android_demo.R;
                 new HlsMediaSource.Factory(dataSourceFactory).createMediaSource(MediaItem.fromUri(uri));
         player.setMediaSource(hlsMediaSource);
         player.prepare();
-
         return view;
     }
 }

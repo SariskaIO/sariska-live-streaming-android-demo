@@ -164,14 +164,11 @@ public class StartLiveStreamFragment extends Fragment {
                 });
 
                 conference.addEventListener("TRACK_ADDED", p -> {
-
                     JitsiRemoteTrack track = (JitsiRemoteTrack) p;
-
                     if (track.getStreamURL().equals(localTracks.get(1).getStreamURL())) {
                         //So as to not add local track in remote container
                         return;
                     }
-
                     getActivity().runOnUiThread(() -> {
                         if (track.getType().equals("video")) {
                             System.out.println("Adding to userList");
