@@ -10,6 +10,13 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven {
+            url = "https://maven.pkg.github.com/SariskaIO/maven-repository"
+            credentials {
+                username = "dipak140"
+                password = "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"
+            }
+        }
     }
 }
 rootProject.name = "sariska-live-streaming-android-demo"
