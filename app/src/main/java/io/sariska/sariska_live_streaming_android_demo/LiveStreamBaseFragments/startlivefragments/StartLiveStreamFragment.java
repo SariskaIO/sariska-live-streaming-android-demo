@@ -12,7 +12,6 @@ import android.widget.RelativeLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.database.DatabaseReference;
@@ -127,12 +126,35 @@ public class StartLiveStreamFragment extends Fragment {
 
                 connection.addEventListener("CONNECTION_DISCONNECTED", () -> {
                 });
-
                 connection.connect();
+                startStreamingButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if(!conference.isJoined()){
+                            return;
+                        }
+                        StartLiveStreamApiCall streamApiCall = new StartLiveStreamApiCall();
+                        streamApiCall.startLiveStreaming("https://api.sariska.io/terraform/v1/hooks/srs/startRecording"
+                                ,roomName, new StartLiveStreamApiCall.liveStreamResponseCallback() {
+                                    @Override
+                                    public void onResponse(String response) {
+                                        System.out.println("Streaming Response: " + response);
+                                        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+                                        databaseReference.child(roomName).setValue(response);
+                                    }
+
+                                    @Override
+                                    public void onFailure(Throwable throwable) {
+
+                                    }
+                                });
+                    }
+                });
 
             }
 
             private void createConference() {
+
                 conference = connection.initJitsiConference();
 
                 conference.addEventListener("CONFERENCE_JOINED", () -> {
@@ -142,14 +164,11 @@ public class StartLiveStreamFragment extends Fragment {
                 });
 
                 conference.addEventListener("TRACK_ADDED", p -> {
-
                     JitsiRemoteTrack track = (JitsiRemoteTrack) p;
-
                     if (track.getStreamURL().equals(localTracks.get(1).getStreamURL())) {
                         //So as to not add local track in remote container
                         return;
                     }
-
                     getActivity().runOnUiThread(() -> {
                         if (track.getType().equals("video")) {
                             System.out.println("Adding to userList");
@@ -159,29 +178,7 @@ public class StartLiveStreamFragment extends Fragment {
                     });
                 });
                 conference.join();
-                startStreamingButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        StartLiveStreamApiCall streamApiCall = new StartLiveStreamApiCall();
 
-                        streamApiCall.startLiveStreaming("https://api.sariska.io/terraform/v1/hooks/srs/startRecording"
-                                ,roomName, new StartLiveStreamApiCall.liveStreamResponseCallback() {
-                            @Override
-                            public void onResponse(String response) {
-                                System.out.println("Streaming Response: " + response);
-
-                                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-
-                                databaseReference.child(roomName).setValue(response);
-                            }
-
-                            @Override
-                            public void onFailure(Throwable throwable) {
-
-                            }
-                        });
-                    }
-                });
             }
 
             @Override

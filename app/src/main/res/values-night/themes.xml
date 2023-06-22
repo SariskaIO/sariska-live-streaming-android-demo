@@ -13,4 +13,9 @@
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+    <style name="prettystartbutton" parent="Widget.MaterialComponents.Button">
+        <!-- Customize button attributes as needed -->
+        <item name="android:backgroundTint">@color/your_button_color</item>
+        <item name="android:textColor">@color/your_text_color</item>
+    </style>
 </resources>
