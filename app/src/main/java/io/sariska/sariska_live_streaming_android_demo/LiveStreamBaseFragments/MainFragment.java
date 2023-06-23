@@ -11,8 +11,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import io.sariska.sariska_live_streaming_android_demo.LiveStreamBaseFragments.joinlivefragments.JoinLiveStreamFragment;
-import io.sariska.sariska_live_streaming_android_demo.LiveStreamBaseFragments.startlivefragments.StartLiveStreamFragment;
+import io.sariska.sariska_live_streaming_android_demo.LiveStreamBaseFragments.joinlivefragments.PlayJoinedLiveStreamFragment;
+import io.sariska.sariska_live_streaming_android_demo.LiveStreamBaseFragments.startlivefragments.LoginStartLiveStreamFragment;
 import io.sariska.sariska_live_streaming_android_demo.R;
 
 
@@ -34,7 +34,7 @@ public class MainFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 // Replace with Fragment
-                StartLiveStreamFragment fragment = StartLiveStreamFragment.newInstance();
+                LoginStartLiveStreamFragment fragment = LoginStartLiveStreamFragment.newInstance();
                 navigateToFragment(fragment);
             }
         });
@@ -43,8 +43,8 @@ public class MainFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 // Replace with Fragment
-                JoinLiveStreamFragment joinLiveStreamFragment = JoinLiveStreamFragment.newInstance();
-                navigateToFragment(joinLiveStreamFragment);
+                PlayJoinedLiveStreamFragment playJoinedLiveStreamFragment = PlayJoinedLiveStreamFragment.newInstance();
+                navigateToFragment(playJoinedLiveStreamFragment);
             }
         });
         return view;

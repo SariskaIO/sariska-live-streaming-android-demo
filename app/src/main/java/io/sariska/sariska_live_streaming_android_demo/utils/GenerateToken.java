@@ -1,9 +1,7 @@
 package io.sariska.sariska_live_streaming_android_demo.utils;
 
 import org.json.JSONException;
-
 import java.io.IOException;
-
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;

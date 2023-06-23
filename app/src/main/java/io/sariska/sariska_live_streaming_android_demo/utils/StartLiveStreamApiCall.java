@@ -7,6 +7,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import okhttp3.ResponseBody;
 
 public class StartLiveStreamApiCall {
     public interface liveStreamResponseCallback {
@@ -48,6 +49,7 @@ public class StartLiveStreamApiCall {
                 try {
                     Response response = client.newCall(request).execute();
                     if (response.isSuccessful()) {
+                        ResponseBody responses = response.body();
                         String responseBody = response.body().string();
                         // Process the response body
                         callback.onResponse(responseBody);
