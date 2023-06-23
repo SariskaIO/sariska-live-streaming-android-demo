@@ -8,20 +8,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RelativeLayout;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.oney.WebRTCModule.WebRTCView;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.IOException;
 import java.util.List;
 import butterknife.BindView;
@@ -43,14 +39,13 @@ public class StartLiveStreamFragment extends Fragment {
     private Connection connection;
     private Conference conference;
     public Button startStreamingButton;
-
-    private String roomName = "roomtest";
+    private Bundle roomDetails;
+    private String roomName;
     @BindView(R.id.local_video_view_container)
     public RelativeLayout mLocalContainer;
     public static StartLiveStreamFragment newInstance() {
         return new StartLiveStreamFragment();
     }
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -59,6 +54,8 @@ public class StartLiveStreamFragment extends Fragment {
         startStreamingButton = view.findViewById(R.id.myButton);
         videoAdapter = new VideoTrackAdapter();
         recyclerView.setAdapter(videoAdapter);
+        roomDetails = getArguments();
+        roomName = roomDetails.getString("roomName");
         // Sariska Initialize SDK
         initializeSdk();
         return view;
@@ -115,8 +112,12 @@ public class StartLiveStreamFragment extends Fragment {
                 for(int i=0; i < array.length(); i++) {
                     JSONObject object = array.getJSONObject(i);
                     finalResponse = object.getString("token");
-                    System.out.println("Token: "+ finalResponse);
                 }
+                startConnection(finalResponse);
+                addOnClickListenerToStreamingButton();
+            }
+
+            private void startConnection(String finalResponse) {
                 connection = SariskaMediaTransport.JitsiConnection(finalResponse, roomName, false);
 
                 connection.addEventListener("CONNECTION_ESTABLISHED", this::createConference);
@@ -127,30 +128,6 @@ public class StartLiveStreamFragment extends Fragment {
                 connection.addEventListener("CONNECTION_DISCONNECTED", () -> {
                 });
                 connection.connect();
-                startStreamingButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        if(!conference.isJoined()){
-                            return;
-                        }
-                        StartLiveStreamApiCall streamApiCall = new StartLiveStreamApiCall();
-                        streamApiCall.startLiveStreaming("https://api.sariska.io/terraform/v1/hooks/srs/startRecording"
-                                ,roomName, new StartLiveStreamApiCall.liveStreamResponseCallback() {
-                                    @Override
-                                    public void onResponse(String response) {
-                                        System.out.println("Streaming Response: " + response);
-                                        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-                                        databaseReference.child(roomName).setValue(response);
-                                    }
-
-                                    @Override
-                                    public void onFailure(Throwable throwable) {
-
-                                    }
-                                });
-                    }
-                });
-
             }
 
             private void createConference() {
@@ -178,9 +155,7 @@ public class StartLiveStreamFragment extends Fragment {
                     });
                 });
                 conference.join();
-
             }
-
             @Override
             public void onFailure(Throwable throwable) {
                 System.out.println("Response: "+ throwable);
@@ -188,15 +163,33 @@ public class StartLiveStreamFragment extends Fragment {
         });
     }
 
-    public void addLocalVideoTrack(JitsiLocalTrack videoTrack){
-        videoAdapter.getVideoTracks().add(videoTrack.render());
-        videoAdapter.notifyDataSetChanged();
+    private void addOnClickListenerToStreamingButton() {
+        startStreamingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(!conference.isJoined()){
+                    return;
+                }
+                StartLiveStreamApiCall streamApiCall = new StartLiveStreamApiCall();
+                streamApiCall.startLiveStreaming("https://api.sariska.io/terraform/v1/hooks/srs/startRecording"
+                        ,roomName, new StartLiveStreamApiCall.liveStreamResponseCallback() {
+                            @Override
+                            public void onResponse(String response) {
+                                System.out.println("Streaming Response: " + response);
+                                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("sariska/");
+                                databaseReference.child(roomName).setValue(response);
+                            }
+
+                            @Override
+                            public void onFailure(Throwable throwable) {
+                                System.out.println("Failure Failure Failure");
+                            }
+                        });
+            }
+        });
     }
 
     public void addRemoteVideoTrack(JitsiRemoteTrack videoTrack){
-        videoAdapter.getVideoTracks().add(videoTrack.render());
         videoAdapter.notifyDataSetChanged();
     }
-
-
 }
