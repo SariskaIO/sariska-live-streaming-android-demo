@@ -39,16 +39,13 @@ public class StartLiveStreamFragment extends Fragment {
     private Connection connection;
     private Conference conference;
     public Button startStreamingButton;
-
     private Bundle roomDetails;
-
     private String roomName;
     @BindView(R.id.local_video_view_container)
     public RelativeLayout mLocalContainer;
     public static StartLiveStreamFragment newInstance() {
         return new StartLiveStreamFragment();
     }
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -112,7 +109,6 @@ public class StartLiveStreamFragment extends Fragment {
                 responseString = "[" + responseString + "]";
                 JSONArray array = new JSONArray(responseString);
                 String finalResponse = null;
-
                 for(int i=0; i < array.length(); i++) {
                     JSONObject object = array.getJSONObject(i);
                     finalResponse = object.getString("token");
@@ -180,12 +176,13 @@ public class StartLiveStreamFragment extends Fragment {
                             @Override
                             public void onResponse(String response) {
                                 System.out.println("Streaming Response: " + response);
-                                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+                                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("sariska/");
                                 databaseReference.child(roomName).setValue(response);
                             }
 
                             @Override
                             public void onFailure(Throwable throwable) {
+                                System.out.println("Failure Failure Failure");
                             }
                         });
             }

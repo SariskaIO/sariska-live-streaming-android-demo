@@ -1,6 +1,7 @@
 package io.sariska.sariska_live_streaming_android_demo.utils;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -19,7 +20,10 @@ public class StartLiveStreamApiCall {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                OkHttpClient client = new OkHttpClient();
+                OkHttpClient client = new OkHttpClient.Builder()
+                        .connectTimeout(10, TimeUnit.SECONDS) // Set the connection timeout
+                        .readTimeout(30, TimeUnit.SECONDS) // Set the read timeout
+                        .build();
 
                 MediaType mediaType = MediaType.parse("application/json");
 
@@ -27,17 +31,7 @@ public class StartLiveStreamApiCall {
 
                 RequestBody requestBody = RequestBody.create(mediaType, requestBodyString);
 
-                String token = "eyJhbGciOiJSUzI1NiIsImtpZCI6ImRkMzc3ZDRjNTBiMDY1ODRm" +
-                        "MGY4MDJhYmFiNTIyMjg5ODJiMTk2YzAzNzYwNzE4NDhiNWJlNTczN2JiMWYwYTUi" +
-                        "LCJ0eXAiOiJKV1QifQ.eyJjb250ZXh0Ijp7InVzZXIiOnsiaWQiOiJqc24xd25rNiIs" +
-                        "Im5hbWUiOiJvbGRfa29hbGEifSwiZ3JvdXAiOiIyMDIifSwic3ViIjoicXdmc2Q1N3BxOW" +
-                        "R4YWtxcXVxNnNlcSIsInJvb20iOiIqIiwiaWF0IjoxNjg3NDM0NTkxLCJuYmYiOjE2ODc0MzQ" +
-                        "1OTEsImlzcyI6InNhcmlza2EiLCJhdWQiOiJtZWRpYV9tZXNzYWdpbmdfY28tYnJvd3NpbmciL" +
-                        "CJleHAiOjE2ODc1MjA5OTF9.6LB1arWp7VbRitOZOqTU3s7TxNlKAD_K_M9o7ZSJZ9-ZMCO4QRx" +
-                        "793afMTXkJGT_qLtHmPEbwL6opGqaNH2s2YANFC-3QgcetLAGk_IFYal3m0l8zo26blL3fBoWr" +
-                        "4FSNVG4H0ILWN4nXGc0xtXztts4YxlnVXmdG5I6MXG5W2J7gajyVRa5SbcCrS76ktaZEU8HICAl" +
-                        "GfifuH49l4DLL40MGO7smbqy1VxlSayuCOA83P2H0oqjUmeQisrqTR6--fIqo_UyruESnLcRZe" +
-                        "5tuYv5I7P22biHtRoUEjQ76U2whbwFhYz5C7dBggTe0eKs--nVF13PhFGuYHGQGtDwRA";
+                String token = "eyJhbGciOiJSUzI1NiIsImtpZCI6ImRkMzc3ZDRjNTBiMDY1ODRmMGY4MDJhYmFiNTIyMjg5ODJiMTk2YzAzNzYwNzE4NDhiNWJlNTczN2JiMWYwYTUiLCJ0eXAiOiJKV1QifQ.eyJjb250ZXh0Ijp7InVzZXIiOnsiaWQiOiJtemsyamt3cCIsIm5hbWUiOiJwcm9wb3NlZF9nb2F0In0sImdyb3VwIjoiMjAyIn0sInN1YiI6InF3ZnNkNTdwcTlkeGFrcXF1cTZzZXEiLCJyb29tIjoiKiIsImlhdCI6MTY4NzUxODA1MSwibmJmIjoxNjg3NTE4MDUxLCJpc3MiOiJzYXJpc2thIiwiYXVkIjoibWVkaWFfbWVzc2FnaW5nX2NvLWJyb3dzaW5nIiwiZXhwIjoxNjg3NjA0NDUxfQ.uTKJu3NQBpQUj93_eD7ly2rsSVT9dsZItzUwLJto9NEBaLxNEJMI_kbktnTSZ9ReW1cI43dXWFFoT4Du_q-mXPESEDG5_7EFKiOmF1tVD_00hNekWJrq7bU01-y3yogsxi4HyI_9H3-HNM5qP1eL0vtqRxDI9x91Irvc6CoiPfYvBYWPhxXjI9AAGkzZ2BX6M4VUBDUi_BjEbIlzRwld78IRcTc8ldWo38_MQmmzp5C6pzBL8PQcV21NdjRWpz31TP3pezl-HmGOuy9ky61NuimfOpnqRE6En6OxVzPlJOUJq8Wvli_QgxzZWL9mksMWxrHKR9pRbC2HHHsUC-7Skw";
 
                 Request request = new Request.Builder()
                         .url(apiUrl)

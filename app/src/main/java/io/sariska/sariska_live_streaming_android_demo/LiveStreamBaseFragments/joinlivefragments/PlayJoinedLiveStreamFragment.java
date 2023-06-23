@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,8 +17,6 @@ import androidx.media3.datasource.DefaultHttpDataSource;
 import androidx.media3.exoplayer.ExoPlayer;
 import androidx.media3.exoplayer.hls.HlsMediaSource;
 import androidx.media3.ui.PlayerView;
-
-
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -33,6 +32,7 @@ import io.sariska.sariska_live_streaming_android_demo.R;
 
     private ExoPlayer exoPlayer;
     private PlayerView playerView;
+    private String roomName;
     public static PlayJoinedLiveStreamFragment newInstance() {
         return new PlayJoinedLiveStreamFragment();
     }
@@ -43,14 +43,16 @@ import io.sariska.sariska_live_streaming_android_demo.R;
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_join_live, container, false);
         // Add your UI elements and logic specific to Start Live fragment
+        roomName = getArguments().getString("roomName");
+
         playerView = view.findViewById(R.id.video_view);
 
         ExoPlayer player = new ExoPlayer.Builder(getContext()).build();
 
         playerView.setPlayer(player);
-        // Build the media item.
 
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("dipak");
+        // Build the media item.
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(roomName);
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -67,15 +69,13 @@ import io.sariska.sariska_live_streaming_android_demo.R;
                 } catch (JSONException e) {
                     throw new RuntimeException(e);
                 }
-                System.out.println("somthing idiotic");
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                Toast.makeText(getActivity(), "This live stream does not exist", Toast.LENGTH_LONG);
             }
         });
-
 
         return view;
     }
