@@ -1,33 +1,33 @@
-package io.sariska.sariska_live_streaming_android_demo.LiveStreamFragments;
+package io.sariska.sariska_live_streaming_android_demo.LiveStreamBaseFragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import io.sariska.sariska_live_streaming_android_demo.LiveStreamBaseFragments.joinlivefragments.LoginJoinLiveStreamFragement;
+import io.sariska.sariska_live_streaming_android_demo.LiveStreamBaseFragments.joinlivefragments.PlayJoinedLiveStreamFragment;
+import io.sariska.sariska_live_streaming_android_demo.LiveStreamBaseFragments.startlivefragments.LoginStartLiveStreamFragment;
 import io.sariska.sariska_live_streaming_android_demo.R;
 
-public class MainFragment extends Fragment {
 
+public class MainFragment extends Fragment {
     private Button btnStartLive;
     private Button btnJoinStream;
-
     public static MainFragment newInstance() {
         return new MainFragment();
     }
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_main, container, false);
 
+        View view = inflater.inflate(R.layout.fragment_main, container, false);
         btnStartLive = view.findViewById(R.id.btnStartLive);
         btnJoinStream = view.findViewById(R.id.btnJoinStream);
 
@@ -35,7 +35,7 @@ public class MainFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 // Replace with Fragment
-                StartLiveStreamFragment fragment = StartLiveStreamFragment.newInstance();
+                LoginStartLiveStreamFragment fragment = LoginStartLiveStreamFragment.newInstance();
                 navigateToFragment(fragment);
             }
         });
@@ -44,8 +44,8 @@ public class MainFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 // Replace with Fragment
-                JoinLiveStreamFragment joinLiveStreamFragment = JoinLiveStreamFragment.newInstance();
-                navigateToFragment(joinLiveStreamFragment);
+                LoginJoinLiveStreamFragement playJoinedLiveStreamFragment = LoginJoinLiveStreamFragement.newInstance();
+                navigateToFragment(playJoinedLiveStreamFragment);
             }
         });
         return view;

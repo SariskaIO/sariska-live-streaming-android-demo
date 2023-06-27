@@ -1,7 +1,7 @@
 package io.sariska.sariska_live_streaming_android_demo.utils;
 
+import org.json.JSONException;
 import java.io.IOException;
-
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -11,7 +11,7 @@ import okhttp3.Response;
 public class GenerateToken {
 
     public interface HttpRequestCallback {
-        void onResponse(String response);
+        void onResponse(String response) throws JSONException;
         void onFailure(Throwable throwable);
     }
 
@@ -49,6 +49,8 @@ public class GenerateToken {
                     e.printStackTrace();
                     // Handle the request failure
                     callback.onFailure(e);
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
                 }
             }
         }).start();

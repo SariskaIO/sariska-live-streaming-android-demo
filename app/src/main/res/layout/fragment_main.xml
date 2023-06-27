@@ -4,21 +4,24 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:gravity="center"
+    android:id="@+id/container_fragment"
     android:orientation="vertical"
     android:padding="16dp"
     tools:context=".MainActivity">
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnStartLive"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Start Live"
+        style="@style/prettystartbutton"
         android:layout_marginBottom="16dp"/>
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnJoinStream"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        style="@style/prettystartbutton"
         android:text="Join Stream"/>
 
 </LinearLayout>

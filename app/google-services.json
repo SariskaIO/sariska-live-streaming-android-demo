@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "273910653349",
+    "project_id": "sariska-live-streaming",
+    "storage_bucket": "sariska-live-streaming.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:273910653349:android:2c3eee8468de8a1981c84c",
+        "android_client_info": {
+          "package_name": "io.sariska.sariska_live_streaming_android_demo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "273910653349-p1339rg94gk6a98lstn6vhg5ivt3npr6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBVcaGlNQGwh3MbPsbZata-GT_fxE60svQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "273910653349-p1339rg94gk6a98lstn6vhg5ivt3npr6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
