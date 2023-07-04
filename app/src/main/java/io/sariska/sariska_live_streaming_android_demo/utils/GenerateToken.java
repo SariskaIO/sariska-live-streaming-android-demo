@@ -15,7 +15,7 @@ public class GenerateToken {
         void onFailure(Throwable throwable);
     }
 
-    public void makeHttpRequest(String apiUrl,final HttpRequestCallback callback) throws IOException {
+    public void makeHttpRequest(String apiUrl,String userName,final HttpRequestCallback callback) throws IOException {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -24,7 +24,7 @@ public class GenerateToken {
                 String json = "{\n" +
                         "    \"apiKey\": \"249202aabed00b41363794b526eee6927bd35cbc9bac36cd3edcaa\",\n" +
                         "    \"user\": {\n" +
-                        "        \"name\": \""+"dipsak"+"\",\n" +
+                        "        \"name\": \""+userName+"\",\n" +
                         "        \"moderator\": true,\n" +
                         "        \"email\": \"dipak@work.com\",\n" +
                         "        \"avatar\":\"null\"\n" +
