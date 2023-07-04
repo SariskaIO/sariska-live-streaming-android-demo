@@ -41,6 +41,7 @@ public class StartLiveStreamFragment extends Fragment {
     public Button startStreamingButton;
     private Bundle roomDetails;
     private String roomName;
+    private String userName;
     @BindView(R.id.local_video_view_container)
     public RelativeLayout mLocalContainer;
     public static StartLiveStreamFragment newInstance() {
@@ -56,6 +57,7 @@ public class StartLiveStreamFragment extends Fragment {
         recyclerView.setAdapter(videoAdapter);
         roomDetails = getArguments();
         roomName = roomDetails.getString("roomName");
+        userName = roomDetails.getString("userName");
         // Sariska Initialize SDK
         initializeSdk();
         return view;
@@ -102,7 +104,7 @@ public class StartLiveStreamFragment extends Fragment {
     private void generateToken() throws IOException {
         GenerateToken httpClient = new GenerateToken();
         String apiUrl = "https://api.sariska.io/api/v1/misc/generate-token";
-        httpClient.makeHttpRequest(apiUrl, new GenerateToken.HttpRequestCallback() {
+        httpClient.makeHttpRequest(apiUrl, userName,new GenerateToken.HttpRequestCallback() {
             @Override
             public void onResponse(String response) throws JSONException {
                 String responseString = response;

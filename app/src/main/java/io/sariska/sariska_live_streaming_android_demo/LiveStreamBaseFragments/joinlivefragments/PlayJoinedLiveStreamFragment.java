@@ -52,7 +52,7 @@ import io.sariska.sariska_live_streaming_android_demo.R;
         playerView.setPlayer(player);
 
         // Build the media item.
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(roomName);
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("sariska/"+roomName);
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
