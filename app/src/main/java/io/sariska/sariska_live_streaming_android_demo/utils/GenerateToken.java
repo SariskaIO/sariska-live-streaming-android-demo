@@ -22,7 +22,7 @@ public class GenerateToken {
                 OkHttpClient client = new OkHttpClient();
                 final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
                 String json = "{\n" +
-                        "    \"apiKey\": \"249202aabed00b41363794b526eee6927bd35cbc9bac36cd3edcaa\",\n" +
+                        "    \"apiKey\": \"27fd6f9e85c304447d3cc0fb31e7ba8062df58af86ac3f9437\",\n" +
                         "    \"user\": {\n" +
                         "        \"name\": \""+"dipsak"+"\",\n" +
                         "        \"moderator\": true,\n" +

@@ -2,12 +2,19 @@ package io.sariska.sariska_live_streaming_android_demo.LiveStreamBaseFragments.s
 
 import static com.facebook.react.bridge.UiThreadUtil.runOnUiThread;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -38,9 +45,14 @@ public class StartLiveStreamFragment extends Fragment {
     private List<JitsiLocalTrack> localTracks;
     private Connection connection;
     private Conference conference;
-    public Button startStreamingButton;
+    public ImageView startStreamingButton;
     private Bundle roomDetails;
     private String roomName;
+    private TextView someViewText;
+
+    private String hls_url="";
+    private Button copyButton;
+    private ClipboardManager clipboard;
     @BindView(R.id.local_video_view_container)
     public RelativeLayout mLocalContainer;
     public static StartLiveStreamFragment newInstance() {
@@ -52,8 +64,11 @@ public class StartLiveStreamFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_start_live, container, false);
         ButterKnife.bind(this, view);
         startStreamingButton = view.findViewById(R.id.myButton);
+        someViewText = view.findViewById(R.id.textToCopy);
+        copyButton = view.findViewById(R.id.copyButton);
         videoAdapter = new VideoTrackAdapter();
         recyclerView.setAdapter(videoAdapter);
+        clipboard = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
         roomDetails = getArguments();
         roomName = roomDetails.getString("roomName");
         // Sariska Initialize SDK
@@ -164,27 +179,40 @@ public class StartLiveStreamFragment extends Fragment {
     }
 
     private void addOnClickListenerToStreamingButton() {
-        startStreamingButton.setOnClickListener(new View.OnClickListener() {
+        getActivity().runOnUiThread(new Runnable() {
             @Override
-            public void onClick(View view) {
-                if(!conference.isJoined()){
-                    return;
-                }
-                StartLiveStreamApiCall streamApiCall = new StartLiveStreamApiCall();
-                streamApiCall.startLiveStreaming("https://api.sariska.io/terraform/v1/hooks/srs/startRecording"
-                        ,roomName, new StartLiveStreamApiCall.liveStreamResponseCallback() {
-                            @Override
-                            public void onResponse(String response) {
-                                System.out.println("Streaming Response: " + response);
-                                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("sariska/");
-                                databaseReference.child(roomName).setValue(response);
-                            }
+            public void run() {
+                startStreamingButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if(!conference.isJoined()){
+                            return;
+                        }
+                        StartLiveStreamApiCall streamApiCall = new StartLiveStreamApiCall();
+                        streamApiCall.startLiveStreaming("https://api.sariska.io/terraform/v1/hooks/srs/startRecording",
+                                roomName, new StartLiveStreamApiCall.liveStreamResponseCallback() {
+                                    @Override
+                                    public void onResponse(String response) throws JSONException {
+                                        JSONObject jsonResponse = new JSONObject(response);
+                                        hls_url = jsonResponse.getString("hls_url");
+                                        someViewText.setText(hls_url);
+                                    }
 
-                            @Override
-                            public void onFailure(Throwable throwable) {
-                                System.out.println("Failure Failure Failure");
-                            }
-                        });
+                                    @Override
+                                    public void onFailure(Throwable throwable) {
+                                        System.out.println("Failure Failure Failure");
+                                    }
+                                });
+                    }
+                });
+
+                copyButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        ClipData clip = ClipData.newPlainText("label", someViewText.getText());
+                        clipboard.setPrimaryClip(clip);
+                    }
+                });
             }
         });
     }
