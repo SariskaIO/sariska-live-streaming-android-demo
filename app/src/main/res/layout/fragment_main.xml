@@ -1,27 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:gravity="center"
     android:id="@+id/container_fragment"
-    android:orientation="vertical"
     android:padding="16dp"
+    android:gravity="center"
+    android:orientation="vertical"
     tools:context=".MainActivity">
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:scaleType="centerCrop"
+        android:layout_marginTop="50dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:src="@drawable/sariska_logo"/>
+
+    <TextView
+        android:id="@+id/random_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        app:layout_constraintTop_toBottomOf="@id/logo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="Sariska Live Streaming Application"/>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnStartLive"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
+        android:layout_marginTop="100dp"
         android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnJoinStream"
+        app:layout_constraintTop_toBottomOf="@id/random_text"
         android:text="Start Live"
         style="@style/prettystartbutton"
-        android:layout_marginBottom="16dp"/>
+        android:layout_marginEnd="8dp" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnJoinStream"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
+        android:layout_marginTop="100dp"
         android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@+id/btnStartLive"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/random_text"
+        android:text="Join Stream"
         style="@style/prettystartbutton"
-        android:text="Join Stream"/>
+        android:layout_marginStart="8dp"/>
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -59,6 +59,4 @@ public class LoginJoinLiveStreamFragement extends Fragment {
         fragmentTransaction.addToBackStack(null); // Add to back stack to enable back navigation
         fragmentTransaction.commit();
     }
-
-
 }

@@ -1,4 +1,4 @@
 <resources>
-    <string name="app_name">sariska-live-streaming-android-demo</string>
+    <string name="app_name">Sariska Live</string>
     <string name="blob_provider_authority">io.sariskalivestreamingjava.blob</string>
 </resources>

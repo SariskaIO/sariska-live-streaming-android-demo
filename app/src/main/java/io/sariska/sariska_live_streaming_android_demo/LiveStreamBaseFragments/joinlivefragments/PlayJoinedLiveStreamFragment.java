@@ -17,14 +17,6 @@ import androidx.media3.datasource.DefaultHttpDataSource;
 import androidx.media3.exoplayer.ExoPlayer;
 import androidx.media3.exoplayer.hls.HlsMediaSource;
 import androidx.media3.ui.PlayerView;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import io.sariska.sariska_live_streaming_android_demo.R;
 
@@ -44,39 +36,14 @@ import io.sariska.sariska_live_streaming_android_demo.R;
         View view = inflater.inflate(R.layout.fragment_join_live, container, false);
         // Add your UI elements and logic specific to Start Live fragment
         roomName = getArguments().getString("roomName");
-
         playerView = view.findViewById(R.id.video_view);
-
         ExoPlayer player = new ExoPlayer.Builder(getContext()).build();
-
         playerView.setPlayer(player);
-
-        // Build the media item.
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(roomName);
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                String data = snapshot.getValue().toString();
-                try {
-                    JSONObject jsonObject = new JSONObject(data);
-                    String urlString = jsonObject.getString("hls_url");
-                    Uri uri = Uri.parse(urlString);
-                    DataSource.Factory dataSourceFactory = new DefaultHttpDataSource.Factory();
-                    HlsMediaSource hlsMediaSource =
-                            new HlsMediaSource.Factory(dataSourceFactory).createMediaSource(MediaItem.fromUri(uri));
-                    player.setMediaSource(hlsMediaSource);
-                    player.prepare();
-                } catch (JSONException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(getActivity(), "This live stream does not exist", Toast.LENGTH_LONG);
-            }
-        });
-
+        Uri uri = Uri.parse(roomName);
+        DataSource.Factory dataSourceFactory = new DefaultHttpDataSource.Factory();
+        HlsMediaSource hlsMediaSource = new HlsMediaSource.Factory(dataSourceFactory).createMediaSource(MediaItem.fromUri(uri));
+        player.setMediaSource(hlsMediaSource);
+        player.prepare();
         return view;
     }
 }
