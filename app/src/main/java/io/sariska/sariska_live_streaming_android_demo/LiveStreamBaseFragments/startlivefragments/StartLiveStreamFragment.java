@@ -195,9 +195,13 @@ public class StartLiveStreamFragment extends Fragment {
                                     public void onResponse(String response) throws JSONException {
                                         JSONObject jsonResponse = new JSONObject(response);
                                         hls_url = jsonResponse.getString("hls_url");
-                                        someViewText.setText(hls_url);
+                                        getActivity().runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                someViewText.setText(hls_url);
+                                            }
+                                        });
                                     }
-
                                     @Override
                                     public void onFailure(Throwable throwable) {
                                         System.out.println("Failure Failure Failure");
