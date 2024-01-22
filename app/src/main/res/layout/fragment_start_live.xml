@@ -8,7 +8,7 @@
     android:gravity="center"
     android:orientation="vertical"
     android:padding="16dp"
-    tools:context="io.sariska.sariska_live_streaming_android_demo.LiveStreamBaseFragments.startlivefragments.StartLiveStreamFragment">
+    tools:context="io.sariska.sariska_live_streaming_android_demo.ui.LiveStreamBaseFragments.startlivefragments.StartLiveStreamFragment">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"

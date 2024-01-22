@@ -1,4 +1,4 @@
-package io.sariska.sariska_live_streaming_android_demo.LiveStreamBaseFragments;
+package io.sariska.sariska_live_streaming_android_demo.ui.LiveStreamBaseFragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,9 +11,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import io.sariska.sariska_live_streaming_android_demo.LiveStreamBaseFragments.joinlivefragments.LoginJoinLiveStreamFragement;
-import io.sariska.sariska_live_streaming_android_demo.LiveStreamBaseFragments.joinlivefragments.PlayJoinedLiveStreamFragment;
-import io.sariska.sariska_live_streaming_android_demo.LiveStreamBaseFragments.startlivefragments.LoginStartLiveStreamFragment;
+import io.sariska.sariska_live_streaming_android_demo.ui.LiveStreamBaseFragments.joinlivefragments.LoginJoinLiveStreamFragement;
+import io.sariska.sariska_live_streaming_android_demo.ui.LiveStreamBaseFragments.startlivefragments.LoginStartLiveStreamFragment;
 import io.sariska.sariska_live_streaming_android_demo.R;
 
 

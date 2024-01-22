@@ -1,4 +1,4 @@
-package io.sariska.sariska_live_streaming_android_demo.LiveStreamBaseFragments.startlivefragments;
+package io.sariska.sariska_live_streaming_android_demo.ui.LiveStreamBaseFragments.startlivefragments;
 
 import static com.facebook.react.bridge.UiThreadUtil.runOnUiThread;
 
@@ -13,14 +13,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+
 import com.oney.WebRTCModule.WebRTCView;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -30,6 +28,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.sariska.sariska_live_streaming_android_demo.R;
+import io.sariska.sariska_live_streaming_android_demo.singleton.TokenManagerInstance;
 import io.sariska.sariska_live_streaming_android_demo.utils.GenerateToken;
 import io.sariska.sariska_live_streaming_android_demo.utils.StartLiveStreamApiCall;
 import io.sariska.sdk.Conference;
@@ -107,75 +106,44 @@ public class StartLiveStreamFragment extends Fragment {
 
     // TODO: Create Connection
     public void createConnection(){
-        try {
-            generateToken();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        connection = SariskaMediaTransport.JitsiConnection(TokenManagerInstance.getInstance().
+                getJwtToken(), roomName, false);
+
+        connection.addEventListener("CONNECTION_ESTABLISHED", this::createConference);
+
+        connection.addEventListener("CONNECTION_FAILED", () -> {
+        });
+
+        connection.addEventListener("CONNECTION_DISCONNECTED", () -> {
+        });
+        connection.connect();
     }
 
-    private void generateToken() throws IOException {
-        GenerateToken httpClient = new GenerateToken();
-        String apiUrl = "https://api.sariska.io/api/v1/misc/generate-token";
-        httpClient.makeHttpRequest(apiUrl, new GenerateToken.HttpRequestCallback() {
-            @Override
-            public void onResponse(String response) throws JSONException {
-                String responseString = response;
-                responseString = "[" + responseString + "]";
-                JSONArray array = new JSONArray(responseString);
-                String finalResponse = null;
-                for(int i=0; i < array.length(); i++) {
-                    JSONObject object = array.getJSONObject(i);
-                    finalResponse = object.getString("token");
-                }
-                startConnection(finalResponse);
-                addOnClickListenerToStreamingButton();
-            }
+    private void createConference() {
 
-            private void startConnection(String finalResponse) {
-                connection = SariskaMediaTransport.JitsiConnection(finalResponse, roomName, false);
+        conference = connection.initJitsiConference();
 
-                connection.addEventListener("CONNECTION_ESTABLISHED", this::createConference);
-
-                connection.addEventListener("CONNECTION_FAILED", () -> {
-                });
-
-                connection.addEventListener("CONNECTION_DISCONNECTED", () -> {
-                });
-                connection.connect();
-            }
-
-            private void createConference() {
-
-                conference = connection.initJitsiConference();
-
-                conference.addEventListener("CONFERENCE_JOINED", () -> {
-                    for (JitsiLocalTrack track : localTracks) {
-                        conference.addTrack(track);
-                    }
-                });
-
-                conference.addEventListener("TRACK_ADDED", p -> {
-                    JitsiRemoteTrack track = (JitsiRemoteTrack) p;
-                    if (track.getStreamURL().equals(localTracks.get(1).getStreamURL())) {
-                        //So as to not add local track in remote container
-                        return;
-                    }
-                    getActivity().runOnUiThread(() -> {
-                        if (track.getType().equals("video")) {
-                            System.out.println("Adding to userList");
-                            videoAdapter.setVideoTracks(track.render());
-                            addRemoteVideoTrack(track);
-                        }
-                    });
-                });
-                conference.join();
-            }
-            @Override
-            public void onFailure(Throwable throwable) {
-                System.out.println("Response: "+ throwable);
+        conference.addEventListener("CONFERENCE_JOINED", () -> {
+            for (JitsiLocalTrack track : localTracks) {
+                conference.addTrack(track);
             }
         });
+
+        conference.addEventListener("TRACK_ADDED", p -> {
+            JitsiRemoteTrack track = (JitsiRemoteTrack) p;
+            if (track.getStreamURL().equals(localTracks.get(1).getStreamURL())) {
+                //So as to not add local track in remote container
+                return;
+            }
+            getActivity().runOnUiThread(() -> {
+                if (track.getType().equals("video")) {
+                    System.out.println("Adding to userList");
+                    videoAdapter.setVideoTracks(track.render());
+                    addRemoteVideoTrack(track);
+                }
+            });
+        });
+        conference.join();
     }
 
     private void addOnClickListenerToStreamingButton() {
@@ -204,6 +172,8 @@ public class StartLiveStreamFragment extends Fragment {
                                     }
                                     @Override
                                     public void onFailure(Throwable throwable) {
+                                        System.out.println(throwable.getCause());
+                                        System.out.println(throwable);
                                         System.out.println("Failure Failure Failure");
                                     }
                                 });

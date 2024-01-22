@@ -11,11 +11,7 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
         maven {
-            url = "https://maven.pkg.github.com/SariskaIO/maven-repository"
-            credentials {
-                username = "dipak140"
-                password = "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"
-            }
+            url = "https://github.com/SariskaIO/sariska-maven-repository/raw/main"
         }
     }
 }

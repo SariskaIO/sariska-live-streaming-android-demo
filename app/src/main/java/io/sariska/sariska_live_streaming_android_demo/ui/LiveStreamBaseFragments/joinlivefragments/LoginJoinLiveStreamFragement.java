@@ -1,4 +1,4 @@
-package io.sariska.sariska_live_streaming_android_demo.LiveStreamBaseFragments.joinlivefragments;
+package io.sariska.sariska_live_streaming_android_demo.ui.LiveStreamBaseFragments.joinlivefragments;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -13,7 +13,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.media3.common.util.UnstableApi;
 
 import com.google.android.material.textfield.TextInputEditText;
 

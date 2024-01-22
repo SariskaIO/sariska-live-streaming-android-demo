@@ -1,10 +1,8 @@
-package io.sariska.sariska_live_streaming_android_demo.LiveStreamBaseFragments.startlivefragments;
+package io.sariska.sariska_live_streaming_android_demo.ui.LiveStreamBaseFragments.startlivefragments;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridLayout;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
@@ -18,7 +16,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.sariska.sariska_live_streaming_android_demo.R;
-import io.sariska.sdk.JitsiLocalTrack;
 
 public class VideoTrackAdapter extends RecyclerView.Adapter<VideoTrackAdapter.VideoViewHolder> {
     private List<WebRTCView> videoTracks = new ArrayList<>();

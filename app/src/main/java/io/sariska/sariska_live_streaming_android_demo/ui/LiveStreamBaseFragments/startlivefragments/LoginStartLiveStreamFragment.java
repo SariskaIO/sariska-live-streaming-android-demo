@@ -1,4 +1,4 @@
-package io.sariska.sariska_live_streaming_android_demo.LiveStreamBaseFragments.startlivefragments;
+package io.sariska.sariska_live_streaming_android_demo.ui.LiveStreamBaseFragments.startlivefragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

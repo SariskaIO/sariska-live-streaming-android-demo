@@ -6,7 +6,7 @@
     android:gravity="center"
     android:orientation="vertical"
     android:padding="16dp"
-    tools:context="io.sariska.sariska_live_streaming_android_demo.LiveStreamBaseFragments.joinlivefragments.PlayJoinedLiveStreamFragment">
+    tools:context="io.sariska.sariska_live_streaming_android_demo.ui.LiveStreamBaseFragments.joinlivefragments.PlayJoinedLiveStreamFragment">
 
     <TextView
         android:id="@+id/tvMessage"
