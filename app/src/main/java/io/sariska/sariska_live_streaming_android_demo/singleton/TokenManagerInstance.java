@@ -34,7 +34,7 @@ public class TokenManagerInstance {
     public void refreshToken(CompletionHandler completionHandler){
         JSONObject jsonBody = new JSONObject();
         try {
-            jsonBody.put("apiKey", "{your-api-key}");
+            jsonBody.put("apiKey", "{your-api-token}");
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -46,7 +46,7 @@ public class TokenManagerInstance {
             @Override
             public void onResponse(Call<TokenResponse> call, Response<TokenResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    jwtToken = response.body().getToken(); // Assuming getToken() fetches the token from ApiResponse
+                    jwtToken = response.body().getToken(); // Assuming getToken() fetches the token from StartLiveStreamApiResponse
                     completionHandler.onSuccess(jwtToken);
                 }
             }

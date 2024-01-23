@@ -21,8 +21,6 @@ public class LoginStartLiveStreamFragment extends Fragment {
     private Button btnStartLive;
     private TextInputEditText roomName;
     private TextInputEditText userName;
-    private String room;
-    private String user;
     public static LoginStartLiveStreamFragment newInstance() {
         return new LoginStartLiveStreamFragment();
     }

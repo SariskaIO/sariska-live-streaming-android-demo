@@ -1,63 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center"
-    android:orientation="vertical"
-    android:padding="16dp"
-    tools:context="io.sariska.sariska_live_streaming_android_demo.ui.LiveStreamBaseFragments.startlivefragments.StartLiveStreamFragment">
-    <RelativeLayout
+    android:layout_height="match_parent">
+
+    <!-- Copy URL Button at the top right -->
+    <Button
+        android:id="@+id/copyButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="Copy URL" />
+
+    <TextView
+        android:id="@+id/textToCopy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:text="Stream URL appears here"
+        android:layout_below="@id/copyButton"
+        android:layout_centerHorizontal="true" />
+
+    <!-- Split container for local and remote views -->
+    <LinearLayout
+        android:id="@+id/videoContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        >
-        
-        <RelativeLayout
-            android:id="@+id/local_video_view_container"
+        android:orientation="vertical"
+        android:layout_below="@id/copyButton"
+        android:weightSum="2">
+
+        <!-- Local view for the video call -->
+        <LinearLayout
+            android:id="@+id/localViewsContainer"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:clickable="true"
-            android:focusable="true"
-            android:orientation="vertical"
-            />
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/remoteRecycleView"
+            <!-- First local view -->
+            <RelativeLayout
+                android:id="@+id/local_video_view_container"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#508800FF" /> <!-- Semi-transparent blue for visualization -->
+
+            <!-- Second local view -->
+            <RelativeLayout
+                android:id="@+id/remote_video_view_container"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#50FF00FF" /> <!-- Semi-transparent magenta for visualization -->
+        </LinearLayout>
+        <!-- Remote view for the video call -->
+        <androidx.media3.ui.PlayerView
+            android:id="@+id/livestreams_player_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/local_video_view_container"
-            android:layout_marginBottom="60dp"
-            android:orientation="horizontal"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:reverseLayout="false"
-            tools:itemCount="5"
-            tools:listitem="@layout/row_item_remote_views" />
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="#50FF0000" /> <!-- Semi-transparent red for visualization -->
+    </LinearLayout>
 
-        <ImageView
-            android:id="@+id/myButton"
-            android:layout_centerHorizontal="true"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:src="@drawable/baseline_play_circle_filled_24"
-            android:text="Send" />
+    <!-- Controls container -->
+    <LinearLayout
+        android:id="@+id/controlsContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:padding="16dp">
 
+        <!-- Start Live Button -->
         <Button
-            android:id="@+id/copyButton"
+            android:id="@+id/myButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:text="Copy Stream URL"
-            android:layout_centerHorizontal="true" />
+            android:text="Start Live"
+            android:layout_marginEnd="8dp" /> <!-- Add margin to the end of the button -->
 
-        <TextView
-            android:id="@+id/textToCopy"
+        <!-- End Call Button -->
+        <Button
+            android:id="@+id/endCallButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:text="Stream URL appears here"
-            android:layout_below="@id/copyButton"
-            android:layout_centerHorizontal="true" />
-    </RelativeLayout>
-</LinearLayout>
+            android:text="End Call"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp" /> <!-- And to the end, for space on both sides -->
+
+        <!-- Stop Live Button -->
+        <Button
+            android:id="@+id/stopLiveButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Stop Live"
+            android:layout_marginStart="8dp" /> <!-- Add margin to the start of the button -->
+
+    </LinearLayout>
+
+</RelativeLayout>

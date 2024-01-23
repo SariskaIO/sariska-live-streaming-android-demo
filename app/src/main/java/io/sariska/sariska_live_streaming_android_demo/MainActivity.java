@@ -7,12 +7,13 @@ import androidx.fragment.app.FragmentTransaction;
 import io.sariska.sariska_live_streaming_android_demo.singleton.CompletionHandler;
 import io.sariska.sariska_live_streaming_android_demo.singleton.TokenManagerInstance;
 import io.sariska.sariska_live_streaming_android_demo.ui.LiveStreamBaseFragments.MainFragment;
-import io.sariska.sariska_live_streaming_android_demo.viewmodel.StreamViewModel;
+import io.sariska.sariska_live_streaming_android_demo.viewmodel.StartStreamViewModel;
 
 public class MainActivity extends AppCompatActivity {
 
-    private StreamViewModel streamViewModel;
-    private TokenManagerInstance tokenManagerInstance = TokenManagerInstance.getInstance();;
+    private StartStreamViewModel startStreamViewModel;
+    private final TokenManagerInstance tokenManagerInstance = TokenManagerInstance.getInstance();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
