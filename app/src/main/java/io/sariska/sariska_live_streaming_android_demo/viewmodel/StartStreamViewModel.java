@@ -34,6 +34,7 @@ public class StartStreamViewModel extends ViewModel {
         try {
             jsonBody.put("room_name", roomName);
             jsonBody.put("layout", "mobile");
+            jsonBody.put("is_low_latency", true);
         } catch (JSONException e) {
             e.printStackTrace();
         }
