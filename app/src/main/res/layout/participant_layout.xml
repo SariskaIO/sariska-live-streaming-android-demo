@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="8dp">
+
+    <!-- Container for participant video view -->
+    <RelativeLayout
+        android:id="@+id/videoContainer"
+        android:layout_width="180dp"
+        android:layout_height="250dp"
+        android:background="#CCCCCC" />
+
+</LinearLayout>

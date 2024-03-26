@@ -34,7 +34,7 @@ public class TokenManagerInstance {
     public void refreshToken(CompletionHandler completionHandler){
         JSONObject jsonBody = new JSONObject();
         try {
-            jsonBody.put("apiKey", "{your-api-token}");
+            jsonBody.put("apiKey", "{your-api-key}");
         } catch (JSONException e) {
             e.printStackTrace();
         }

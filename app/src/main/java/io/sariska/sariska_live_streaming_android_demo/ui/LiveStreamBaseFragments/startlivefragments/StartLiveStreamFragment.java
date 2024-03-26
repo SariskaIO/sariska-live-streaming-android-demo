@@ -25,7 +25,12 @@ import androidx.media3.datasource.DefaultHttpDataSource;
 import androidx.media3.exoplayer.ExoPlayer;
 import androidx.media3.exoplayer.hls.HlsMediaSource;
 import androidx.media3.ui.PlayerView;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.oney.WebRTCModule.WebRTCView;
+
+import java.util.ArrayList;
 import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -56,18 +61,17 @@ public class StartLiveStreamFragment extends Fragment {
     private Button stopLiveButton;
     private ClipboardManager clipboard;
     private PlayerView playerView;
-    @BindView(R.id.local_video_view_container)
-    public RelativeLayout mLocalContainer;
-
-    @BindView(R.id.remote_video_view_container)
-    public RelativeLayout mRemoteContainer;
+    @BindView(R.id.participantsRecyclerView)
+    public RecyclerView participantRecycleView;
+    public ParticipantAdapter participantAdapter;
+    public GridLayoutManager gridLayoutManager;
     public static StartLiveStreamFragment newInstance() {
         return new StartLiveStreamFragment();
     }
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_start_live, container, false);
+        View view = inflater.inflate(R.layout.fragment_start_live_new, container, false);
         ButterKnife.bind(this, view);
         initializeViews(view);
         initializeSdk();
@@ -76,9 +80,12 @@ public class StartLiveStreamFragment extends Fragment {
 
     private void initializeViews(View view) {
         someViewText = view.findViewById(R.id.textToCopy);
-        playerView = view.findViewById(R.id.livestreams_player_view);
         startStreamingButton = view.findViewById(R.id.myButton);
         copyButton = view.findViewById(R.id.copyButton);
+        CustomLayoutManager layoutManager = new CustomLayoutManager();
+        participantRecycleView.setLayoutManager(layoutManager);
+        participantAdapter = new ParticipantAdapter(new ArrayList<>());
+        participantRecycleView.setAdapter(participantAdapter);
         stopLiveButton = view.findViewById(R.id.stopLiveButton);
         endCallButton = view.findViewById(R.id.endCallButton);
         clipboard = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
@@ -104,7 +111,6 @@ public class StartLiveStreamFragment extends Fragment {
                         WebRTCView view = track.render();
                         view.setObjectFit("cover");
                         view.setMirror(true);
-                        mLocalContainer.addView(track.render());
                     }
                 }
             });
@@ -145,15 +151,14 @@ public class StartLiveStreamFragment extends Fragment {
 
         conference.addEventListener("TRACK_ADDED", p -> {
             JitsiRemoteTrack track = (JitsiRemoteTrack) p;
-            if (track.getStreamURL().equals(localTracks.get(1).getStreamURL())) {
-                //So as to not add local track in remote container
-                return;
-            }
+//            if (track.getStreamURL().equals(localTracks.get(1).getStreamURL())) {
+//                //So as to not add local track in remote container
+//                return;
+//            }
             getActivity().runOnUiThread(() -> {
                 if (track.getType().equals("video")) {
                     // TODO: Add Remote View
-                    WebRTCView view = track.render();
-                    mRemoteContainer.addView(view);
+                    participantAdapter.addToParticipantList(track, conference.getParticipantCount(false));
                 }
             });
         });
@@ -161,7 +166,12 @@ public class StartLiveStreamFragment extends Fragment {
         conference.addEventListener("TRACK_REMOVED", p -> {
             JitsiRemoteTrack track = (JitsiRemoteTrack) p;
             runOnUiThread(() -> {
-
+                for(int i=0;i<participantAdapter.getParticipantList().size();i++){
+                    if(participantAdapter.getParticipantList().get(i) == track){
+                        participantAdapter.getParticipantList().remove(i);
+                        participantAdapter.notifyItemRemoved(i);
+                    }
+                }
             });
         });
 
@@ -197,13 +207,13 @@ public class StartLiveStreamFragment extends Fragment {
                             public void onSuccess(String hls_url) {
                                 System.out.println("HLS URL HERE");
                                 System.out.println(hls_url);
-                                ExoPlayer player = new ExoPlayer.Builder(getContext()).build();
-                                playerView.setPlayer(player);
-                                Uri uri = Uri.parse(hls_url);
-                                DataSource.Factory dataSourceFactory = new DefaultHttpDataSource.Factory();
-                                HlsMediaSource hlsMediaSource = new HlsMediaSource.Factory(dataSourceFactory).createMediaSource(MediaItem.fromUri(uri));
-                                player.setMediaSource(hlsMediaSource);
-                                player.prepare();
+//                                ExoPlayer player = new ExoPlayer.Builder(getContext()).build();
+//                                playerView.setPlayer(player);
+//                                Uri uri = Uri.parse(hls_url);
+//                                DataSource.Factory dataSourceFactory = new DefaultHttpDataSource.Factory();
+//                                HlsMediaSource hlsMediaSource = new HlsMediaSource.Factory(dataSourceFactory).createMediaSource(MediaItem.fromUri(uri));
+//                                player.setMediaSource(hlsMediaSource);
+//                                player.prepare();
                             }
 
                             @Override
@@ -256,13 +266,14 @@ public class StartLiveStreamFragment extends Fragment {
                 endCallButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        conference.leave();
-                        connection.disconnect();
                         for (JitsiLocalTrack track : localTracks){
                             track.dispose();
                         }
-                        mLocalContainer.removeAllViews();
-                        mRemoteContainer.removeAllViews();
+                        for (JitsiRemoteTrack track: participantAdapter.getParticipantList()){
+                            track.dispose();
+                        }
+                        conference.leave();
+                        connection.disconnect();
                     }
                 });
             }
