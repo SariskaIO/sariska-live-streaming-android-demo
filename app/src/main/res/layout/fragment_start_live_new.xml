@@ -23,40 +23,16 @@
         android:layout_below="@id/copyButton"
         android:layout_centerHorizontal="true" />
 
-    <!-- Split container for local and remote views -->
-    <LinearLayout
-        android:id="@+id/videoContainer"
+    <!-- RecyclerView for video participants -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/participantsRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_below="@id/copyButton"
-        android:weightSum="2">
-
-        <!-- Local view for the video call -->
-        <LinearLayout
-            android:id="@+id/localViewsContainer"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:orientation="horizontal">
-
-            <!-- First local view -->
-            <RelativeLayout
-                android:id="@+id/local_video_view_container"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="#508800FF" /> <!-- Semi-transparent blue for visualization -->
-
-            <!-- Second local view -->
-            <RelativeLayout
-                android:id="@+id/remote_video_view_container"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="#50FF00FF" /> <!-- Semi-transparent magenta for visualization -->
-        </LinearLayout>
-    </LinearLayout>
+        android:layout_below="@id/textToCopy"
+        android:padding="8dp"
+        android:clipToPadding="false"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"/>
 
     <!-- Controls container -->
     <LinearLayout
